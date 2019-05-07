@@ -2,7 +2,9 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var userDao = require('./dao/userDao')
 var logger = require('morgan');
+var resConfig = require('./configs/responseConfig')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,7 +21,22 @@ app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
   res.header("X-Powered-By",' 3.2.1')
   res.header("Content-Type", "application/json;charset=utf-8");
-  next();
+  console.log('req.headers', req.headers)
+  if (req.headers.token) {
+    userDao.checkUserToken(req.headers.token, function (err, rows, fields) {
+      if (rows.length > 0) {
+        next()
+      } else {
+        res.send({
+          success: false,
+          errorMessage: '在其他设备登陆，请重新登陆',
+          errorCode: resConfig.userNoLogin
+        })
+      }
+    })
+  } else {
+    next()
+  }
 });
 
 app.use(cors());
