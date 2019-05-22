@@ -2,10 +2,12 @@ var resConfig = require('../configs/responseConfig')
 var constructResponse = require('../utils/constructResponse')
 var getUuid = require('../utils/getUuid')
 var subjectDao = require('../dao/subjectDao')
+var articalDao = require('../dao/articalDao')
 
 function addSubject (req, res) {
   var body = req.body
   var subjectName = body.subjectName
+  var subjectName = 'MySql'
   var subjectId = getUuid()
   var queryData = {
     subjectName: subjectName,
@@ -21,7 +23,7 @@ function addSubject (req, res) {
     } else {
       res.send(constructResponse({
         success: true,
-        message: '科目新增成功'
+        message: '科目新增成功111'
       }))
     }
   })
@@ -52,15 +54,117 @@ function removeSubject (req, res) {
 }
 
 function getArticalList (req, res) {
-
+  var body = req.body
+  var subjectId = body.subjectId
+  var queryData = {
+    subjectId: subjectId
+  }
+  articalDao.getArticalList(queryData, function (err, rows, fields) {
+    if (err) {
+      console.log(err)
+      res.send(constructResponse({
+        success: false,
+        errorCode: resConfig.publicErrorCode,
+        errorMessage: '文章列表获取失败，请重试'
+      }))
+    } else {
+      console.log(rows)
+      res.send(constructResponse({
+        success: true,
+        message: '文章列表获取成功',
+        data: rows
+      }))
+    }
+  })
 }
 
 function getArticalDetail (req, res) {
-
+  var articalId = req.body.articalId
+  var queryData = {
+    articalId: articalId
+  }
+  articalDao.getArticalDetail(queryData, function (err, rows, fields) {
+    if (err) {
+      console.log(err)
+      res.send(constructResponse({
+        success: false,
+        errorCode: resConfig.publicErrorCode,
+        errorMessage: '文章获取失败，请重试'
+      }))
+    } else {
+      console.log(rows)
+      res.send(constructResponse({
+        success: true,
+        message: '文章获取成功',
+        data: rows[0]
+      }))
+    }
+  })
 }
 
 function addArtical (req, res) {
+  var body = req.body
+  var title = body.title
+  var content = body.content
+  var auth = body.auth
+  var subjectId = body.subjectId
+  var articalId = getUuid()
+  var queryData = {
+    title: title,
+    content: content,
+    auth: auth,
+    subjectId: subjectId,
+    articalId: articalId
+  }
+  articalDao.addArtical(queryData, function (err, rows, fields) {
+    if (err) {
+      console.log(err)
+      res.send(constructResponse({
+        success: false,
+        errorCode: resConfig.publicErrorCode,
+        errorMessage: '新增文章失败，请重试'
+      }))
+    } else {
+      console.log(rows)
+      res.send(constructResponse({
+        success: true,
+        message: '文章新增成功'
+      }))
+    }
+  })
+}
 
+function updateArtical (req, res) {
+  var body = req.body
+  var title = body.title
+  var content = body.content
+  var auth = body.auth
+  var subjectId = body.subjectId
+  var articalId = body.articalId
+  console.log(body)
+  var queryData = {
+    title: title,
+    content: content,
+    auth: auth,
+    subjectId: subjectId,
+    articalId: articalId
+  }
+  console.log('44444444', queryData)
+  articalDao.updateArtical(queryData, function (err, rows, fields) {
+    if (err) {
+      console.log(err)
+      res.send(constructResponse({
+        success: false,
+        errorCode: resConfig.publicErrorCode,
+        errorMessage: '修改文章失败，请重试'
+      }))
+    } else {
+      res.send(constructResponse({
+        success: true,
+        message: '文章修改成功'
+      }))
+    }
+  })
 }
 
 function removeArtical (req, res) {
@@ -75,5 +179,6 @@ module.exports = {
   addArtical: addArtical,
   getArticalList: getArticalList,
   getArticalDetail: getArticalDetail,
+  updateArtical: updateArtical,
   removeArtical: removeArtical
 }
