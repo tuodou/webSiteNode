@@ -9,13 +9,13 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
-router.post('/signIn', user.signIn)
-router.post('/signUp', user.signUp)
-router.post('/artical/addSubject', artical.addSubject)
-router.post('/artical/getSubjectList', artical.getSubjectList)
-router.post('/artical/addArtical', artical.addArtical)
-router.post('/artical/addArticalList', artical.getArticalList)
-router.post('/artical/getArticalDetail', artical.getArticalDetail)
-router.post('/artical/updateArtical', artical.updateArtical)
+router.post('/api/signIn', user.signIn)
+router.post('/api/signUp', user.signUp)
+router.post('/api/artical/addSubject', artical.addSubject)
+router.post('/api/artical/getSubjectList', artical.getSubjectList)
+router.post('/api/artical/addArtical', artical.addArtical)
+router.post('/api/artical/addArticalList', artical.getArticalList)
+router.post('/api/artical/getArticalDetail', artical.getArticalDetail)
+router.post('/api/artical/updateArtical', artical.updateArtical)
 
 module.exports = router;
