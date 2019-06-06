@@ -10,11 +10,13 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var cors = require('cors');
 var app = express();
+var ejs = require('ejs')
 
 // view engine setup
 app.use(express.static(path.join(__dirname, 'views')))
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.engine('html', ejs.__express);
+app.set('view engine', 'html');
 
 app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

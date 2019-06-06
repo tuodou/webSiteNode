@@ -5,8 +5,8 @@ var artical = require('../web/artical')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.location('./views.index.html')
-  //res.render('index');
+  console.log(99999)
+  res.render('index');
 });
 
 router.post('/signIn', user.signIn)
