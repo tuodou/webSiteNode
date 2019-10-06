@@ -55,7 +55,9 @@ function removeSubject (req, res) {
 
 function getArticalList (req, res) {
   var body = req.body
-  articalDao.getArticalList({}, function (err, rows, fields) {
+  var page = body.page
+  var pageSize = body.pageSize
+  articalDao.getArticalList({ page: page, pageSize: pageSize }, function (err, rows, fields) {
     if (err) {
       console.log(err)
       res.send(constructResponse({
@@ -75,9 +77,9 @@ function getArticalList (req, res) {
 }
 
 function getArticalDetail (req, res) {
-  var articalId = req.body.articalId
+  var id = req.body.id
   var queryData = {
-    articalId: articalId
+    id: id
   }
   articalDao.getArticalDetail(queryData, function (err, rows, fields) {
     if (err) {

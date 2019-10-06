@@ -12,26 +12,50 @@ function addArtical (queryData, callback) {
   var params = [title, img, brief, detail, auth, classify, articalId]
   console.log('params ******', params)
   getConnect(function (connect) {
-    if (!connect) callback(new Error('network error'))
-    connect.query(sql, params, function (err, rows, fields) {
-      console.log(err)
-      callback(err, rows, fields)
-      connect.release()
-    })
+    if (!connect) {
+      callback(new Error('network error'))
+    } else {
+      connect.query(sql, params, function (err, rows, fields) {
+        console.log(err)
+        callback(err, rows, fields)
+        connect.release()
+      })
+    }
   })
 }
 
 function getArticalList (queryData, callback) {
-  var sql = 'select * from web.artical'
-  var params = []
-  connection.query(sql, params, callback)
+  var sql = 'select * from web.artical limit ?, ?'
+  // select * from table limit (start-1)*pageSize,pageSize;
+  var page = queryData.page
+  var pageSize = queryData.pageSize
+  getConnect(function (connect) {
+    if (!connect) {
+      callback(new Error('network error'))
+    } else {
+      connect.query(sql, [(page - 1) * pageSize, pageSize], function (err, rows, fields) {
+        callback(err, rows, fields)
+        connect.release()
+      })
+    }
+  })
 }
 
 function getArticalDetail (queryData, callback) {
-  var articalId = queryData.articalId
-  var sql = 'select * from web.artical where articalId = ?'
-  var params = [articalId]
-  connection.query(sql, params, callback)
+  var id = queryData.id
+  var sql = 'select * from web.artical where id = ?'
+  var params = [id]
+  console.log('+++++++++++', id)
+  getConnect(function (connect) {
+    if (!connect) {
+      callback(new Error('network error'))
+    } else {
+      connect.query(sql, params, function (err, rows, fields) {
+        callback(err, rows, fields)
+        connect.release()
+      })
+    }
+  })
 }
 
 function updateArtical (queryData, callback) {
