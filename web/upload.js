@@ -33,7 +33,7 @@ function uploadImage (req, res, next) {
           message: '图片上传成功',
           data: {
             name: imgName,
-            path: 'http://' + req.headers.host + '/images/' + imgName
+            path: 'http://www.todo-fordream.club/images/' + imgName
           }
         }))
       }
