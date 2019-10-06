@@ -105,6 +105,7 @@ function addArtical (req, res) {
   var queryData = {
     title: body.title,
     img: body.img,
+    brief: body.brief,
     detail: body.detail,
     auth: body.auth,
     classify: body.classify,

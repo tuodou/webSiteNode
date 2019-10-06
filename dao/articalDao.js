@@ -4,11 +4,12 @@ function addArtical (queryData, callback) {
   var title = queryData.title
   var detail = queryData.detail
   var auth = queryData.auth
+  var brief = queryData.brief
   var img = queryData.img
   var classify = queryData.classify
   var articalId = queryData.articalId
-  var sql = 'insert into web.artical (title, img, detail, auth, classify, articalId) values (?, ?, ?, ?, ?, ?)'
-  var params = [title, img, detail, auth, classify, articalId]
+  var sql = 'insert into web.artical (title, img, brief, detail, auth, classify, articalId) values (?, ?, ?, ?, ?, ?, ?)'
+  var params = [title, img, brief, detail, auth, classify, articalId]
   console.log('params ******', params)
   getConnect(function (connect) {
     if (!connect) callback(new Error('network error'))
