@@ -1,20 +1,28 @@
-var connection = require('../mysqlBaseInfo/mysql')
+var getConnect = require('../mysqlBaseInfo/mysql')
 
 function addArtical (queryData, callback) {
   var title = queryData.title
-  var content = queryData.content
+  var detail = queryData.detail
   var auth = queryData.auth
-  var subjectId = queryData.subjectId
+  var img = queryData.img
+  var classify = queryData.classify
   var articalId = queryData.articalId
-  var sql = 'insert into web.artical (title, content, auth, subjectId, articalId) values (?, ?, ?, ?, ?)'
-  var params = [title, content, auth, subjectId, articalId]
-  connection.query(sql, params, callback)
+  var sql = 'insert into web.artical (title, img, detail, auth, classify, articalId) values (?, ?, ?, ?, ?, ?)'
+  var params = [title, img, detail, auth, classify, articalId]
+  console.log('params ******', params)
+  getConnect(function (connect) {
+    if (!connect) callback(new Error('network error'))
+    connect.query(sql, params, function (err, rows, fields) {
+      console.log(err)
+      callback(err, rows, fields)
+      connect.release()
+    })
+  })
 }
 
 function getArticalList (queryData, callback) {
-  var subjectId = queryData.subjectId
-  var sql = 'select * from web.artical where subjectId = ?'
-  var params = [subjectId]
+  var sql = 'select * from web.artical'
+  var params = []
   connection.query(sql, params, callback)
 }
 

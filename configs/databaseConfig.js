@@ -4,5 +4,5 @@ module.exports = {
   user: 'outer',
   password: 'root',
   dataBase: 'web',
-  useConnectionPooling: true
+  connectionLimit: 100
 }

@@ -55,11 +55,7 @@ function removeSubject (req, res) {
 
 function getArticalList (req, res) {
   var body = req.body
-  var subjectId = body.subjectId
-  var queryData = {
-    subjectId: subjectId
-  }
-  articalDao.getArticalList(queryData, function (err, rows, fields) {
+  articalDao.getArticalList({}, function (err, rows, fields) {
     if (err) {
       console.log(err)
       res.send(constructResponse({
@@ -103,17 +99,15 @@ function getArticalDetail (req, res) {
 }
 
 function addArtical (req, res) {
+  console.log('-----', req.body)
   var body = req.body
-  var title = body.title
-  var content = body.content
-  var auth = body.auth
-  var subjectId = body.subjectId
   var articalId = getUuid()
   var queryData = {
-    title: title,
-    content: content,
-    auth: auth,
-    subjectId: subjectId,
+    title: body.title,
+    img: body.img,
+    detail: body.detail,
+    auth: body.auth,
+    classify: body.classify,
     articalId: articalId
   }
   articalDao.addArtical(queryData, function (err, rows, fields) {

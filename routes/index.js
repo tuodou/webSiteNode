@@ -2,6 +2,7 @@ var router = require('../mysqlBaseInfo/index')
 
 var user = require('../web/user')
 var artical = require('../web/artical')
+var upload = require('../web/upload')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -17,5 +18,6 @@ router.post('/api/artical/addArtical', artical.addArtical)
 router.post('/api/artical/addArticalList', artical.getArticalList)
 router.post('/api/artical/getArticalDetail', artical.getArticalDetail)
 router.post('/api/artical/updateArtical', artical.updateArtical)
+router.post('/api/upload/image', upload.uploadImage)
 
 module.exports = router;

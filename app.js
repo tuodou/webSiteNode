@@ -11,18 +11,13 @@ var cors = require('cors');
 var app = express();
 var ejs = require('ejs')
 
-// view engine setup
-app.use(express.static(path.join(__dirname, 'views')))
-app.set('views', path.join(__dirname, 'views'));
-app.engine('html', ejs.__express);
-app.set('view engine', 'html');
 
 app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With,content-type");
   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
   res.header("X-Powered-By",' 3.2.1')
-  res.header("Content-Type", "application/json;charset=utf-8");
+  // res.header("Content-Type", "application/json;charset=utf-8");
   console.log('req.headers', req.headers)
   if (req.headers.token) {
     userDao.checkUserToken(req.headers.token, function (err, rows, fields) {
@@ -46,7 +41,13 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+// view engine setup
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'views')))
+app.set('views', path.join(__dirname, 'views'));
+app.engine('html', ejs.__express);
+app.set('view engine', 'html');
 
 app.use('/', indexRouter);
 
