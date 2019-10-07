@@ -58,20 +58,46 @@ function getArticalDetail (queryData, callback) {
   })
 }
 
+function getRecentArtical (queryData, callback) {
+  var sql = 'select * from web.artical order by uTime desc LIMIT 3'
+  getConnect(function (connect) {
+    if (!connect) {
+      callback(new Error('network error'))
+    } else {
+      connect.query(sql, [], function (err, rows, fields) {
+        callback(err, rows, fields)
+        connect.release()
+      })
+    }
+  })
+}
+
 function updateArtical (queryData, callback) {
+  var id = queryData.id
   var title = queryData.title
-  var content = queryData.content
+  var img = queryData.img
+  var brief = queryData.brief
+  var detail = queryData.detail
   var auth = queryData.auth
-  var subjectId = queryData.subjectId
-  var articalId = queryData.articalId
-  var sql = 'update web.artical set title = ?, content = ?, auth = ?, subjectId = ? where articalId = ?'
-  var params = [title, content, auth, subjectId, articalId]
-  connection.query(sql, params, callback)
+  var classify = queryData.classify
+  var sql = 'update web.artical set title = ?, img = ?, brief=?, detail = ?, auth = ?, classify = ? where id = ?'
+  var params = [title, img, brief, detail, auth, classify, id]
+  getConnect(function (connect) {
+    if (!connect) {
+      callback(new Error('network error'))
+    } else {
+      connect.query(sql, params, function (err, rows, fields) {
+        callback(err, rows, fields)
+        connect.release()
+      })
+    }
+  })
 }
 
 module.exports = {
   addArtical: addArtical,
   getArticalDetail: getArticalDetail,
   getArticalList: getArticalList,
-  updateArtical: updateArtical
+  updateArtical: updateArtical,
+  getRecentArtical: getRecentArtical
 }

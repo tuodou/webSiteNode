@@ -100,6 +100,26 @@ function getArticalDetail (req, res) {
   })
 }
 
+function getRecentArtical(req, res) {
+  articalDao.getRecentArtical({}, function (err, rows, fields) {
+    if (err) {
+      console.log(err)
+      res.send(constructResponse({
+        success: false,
+        errorCode: resConfig.publicErrorCode,
+        errorMessage: '最新文章获取失败，请重试'
+      }))
+    } else {
+      console.log(rows)
+      res.send(constructResponse({
+        success: true,
+        message: '最新文章获取成功',
+        data: rows
+      }))
+    }
+  })
+}
+
 function addArtical (req, res) {
   console.log('-----', req.body)
   var body = req.body
@@ -119,13 +139,13 @@ function addArtical (req, res) {
       res.send(constructResponse({
         success: false,
         errorCode: resConfig.publicErrorCode,
-        errorMessage: '新增文章失败，请重试'
+        errorMessage: '更新文章失败，请重试'
       }))
     } else {
       console.log(rows)
       res.send(constructResponse({
         success: true,
-        message: '文章新增成功'
+        message: '文章更新成功'
       }))
     }
   })
@@ -133,20 +153,24 @@ function addArtical (req, res) {
 
 function updateArtical (req, res) {
   var body = req.body
+  var id = body.id
   var title = body.title
-  var content = body.content
+  var img = body.img
+  var brief = body.brief
+  var detail = body.detail
   var auth = body.auth
-  var subjectId = body.subjectId
+  var classify = body.classify
   var articalId = body.articalId
-  console.log(body)
   var queryData = {
+    id: id,
     title: title,
-    content: content,
+    img: img,
+    brief: brief,
+    detail: detail,
     auth: auth,
-    subjectId: subjectId,
+    classify: classify,
     articalId: articalId
   }
-  console.log('44444444', queryData)
   articalDao.updateArtical(queryData, function (err, rows, fields) {
     if (err) {
       console.log(err)
@@ -176,6 +200,7 @@ module.exports = {
   addArtical: addArtical,
   getArticalList: getArticalList,
   getArticalDetail: getArticalDetail,
+  getRecentArtical: getRecentArtical,
   updateArtical: updateArtical,
   removeArtical: removeArtical
 }

@@ -6,7 +6,6 @@ var upload = require('../web/upload')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log(99999)
   res.render('index');
 });
 
@@ -17,6 +16,7 @@ router.post('/api/artical/getSubjectList', artical.getSubjectList)
 router.post('/api/artical/addArtical', artical.addArtical)
 router.post('/api/artical/addArticalList', artical.getArticalList)
 router.post('/api/artical/getArticalDetail', artical.getArticalDetail)
+router.post('/api/artical/getRecentArtical', artical.getRecentArtical)
 router.post('/api/artical/updateArtical', artical.updateArtical)
 router.post('/api/upload/image', upload.uploadImage)
 
