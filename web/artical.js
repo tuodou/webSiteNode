@@ -90,7 +90,6 @@ function getArticalDetail (req, res) {
         errorMessage: '文章获取失败，请重试'
       }))
     } else {
-      console.log(rows)
       res.send(constructResponse({
         success: true,
         message: '文章获取成功',

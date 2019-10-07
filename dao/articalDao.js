@@ -45,14 +45,20 @@ function getArticalDetail (queryData, callback) {
   var id = queryData.id
   var sql = 'select * from web.artical where id = ?'
   var params = [id]
-  console.log('+++++++++++', id)
   getConnect(function (connect) {
     if (!connect) {
       callback(new Error('network error'))
     } else {
       connect.query(sql, params, function (err, rows, fields) {
+        console.log('rows data: ', rows[0].views + 1)
+        var views = rows[0].views + 1
+        var viewsSql = 'update web.artical set views = ? where id = ?'
+        rows[0].views = views
         callback(err, rows, fields)
-        connect.release()
+        console.log(views, id)
+        connect.query(viewsSql, [views, id], function (err, rows, fields) {
+          connect.release()
+        })
       })
     }
   })
