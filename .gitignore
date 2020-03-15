@@ -2,6 +2,7 @@
 node_modules
 /dist
 views
+public
 
 # local env files
 .env.local
