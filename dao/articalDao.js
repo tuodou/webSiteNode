@@ -25,7 +25,7 @@ function addArtical (queryData, callback) {
 }
 
 function getArticalList (queryData, callback) {
-  var sql = 'select * from web.artical limit ?, ?'
+  var sql = 'select title, brief, auth, img, classify, id, articalId from web.artical limit ?, ?'
   // select * from table limit (start-1)*pageSize,pageSize;
   var page = queryData.page
   var pageSize = queryData.pageSize
