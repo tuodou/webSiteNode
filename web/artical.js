@@ -7,7 +7,6 @@ var articalDao = require('../dao/articalDao')
 function addSubject (req, res) {
   var body = req.body
   var subjectName = body.subjectName
-  var subjectName = 'MySql'
   var subjectId = getUuid()
   var queryData = {
     subjectName: subjectName,
